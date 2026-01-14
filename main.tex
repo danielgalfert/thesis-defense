@@ -1,0 +1,50 @@
+% VIGTIGT! For at dokumentet kan compile, skal man benytte XeLaTeX eller LuaLaTeX som compiler. Dette kan gøres i Overleaf ved at gå til Menu -> Settings -> Compiler -> Vælg XeLaTeX/LuaLaTeX
+\documentclass[t,24pt]{beamer}
+
+\usepackage{KUstyle}
+
+\toplinje{Master Thesis Defense} %Teksten på toplinjen. Hvis ingen tekst ønskes, skal kommandoen fjernes
+
+\begin{document}
+
+% Det første slide. Her kan man f.eks. ændre hovedtitel, undertitlen, oplægsholder, KU-enhed og dato
+{
+\setbeamertemplate{background}{\includegraphics[width=\paperwidth,height=\paperheight]{KU/forside.pdf}}
+\begin{frame}
+    \begin{textblock*}{\textwidth}(0\textwidth,0.1\textheight)
+        \begin{beamercolorbox}[wd=6.3cm,ht=7.7cm,sep=0.5cm]{hvidbox}
+            \fontsize{4}{10}\fontfamily{ptm}\selectfont \textls[200]{University of Copenhagen}
+            \noindent\textcolor{KUrod}{\rule{5.3cm}{0.4pt}}
+        \end{beamercolorbox}
+    \end{textblock*}
+    \begin{textblock*}{\textwidth}(0\textwidth,0.1\textheight)
+        \begin{beamercolorbox}[wd=6.3cm,sep=0.5cm]{hvidbox}
+                \textcolor{KUrod}{Learning Local Gibbs States from Noisy Shallow Quantum Circuits}
+                \vspace{0.5cm}
+                \par
+                Department of Mathematical Sciences
+                \vspace{0.5cm}
+                \par
+                \normalsize Daniel Gonzálvez Alfert  21/01/2026
+        \end{beamercolorbox}
+    \end{textblock*}
+    \begin{textblock}{1}(6,11.44)
+        \includegraphics[width=1cm]{KU/KU-logo.png}
+    \end{textblock}
+\end{frame}
+}
+\begin{frame}[hoved]
+\frametitle{Outline}
+\tableofcontents
+
+\end{frame}
+
+\input{sections/context_motivation}
+\input{sections/motivating_theorem}
+%\section{Numerical results}
+%\section{Heisenberg picture, $k$-designs}
+%\section{Gibbs state truncation - conjecture}
+%\section{Conclusion}
+
+
+\end{document}
