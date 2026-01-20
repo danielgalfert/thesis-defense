@@ -1,0 +1,137 @@
+\section{Motivating theorem}
+\begin{frame}[hoved]
+\centering
+\vspace{4cm}
+{\Huge \textbf{Motivating theorem}}
+\end{frame}
+
+
+%The states that we will use to approximate these circuits are Gibbs states, which take the following form: an exponential of the Hamiltonian of the system and a parameter denominated inverse temperature. We will often decompose the hamiltonian of this state in Pauli strings, which are tensor products of Pauli matrices. Then, we define the weight of a Pauli string as the amount of non identities in the tensor. The locality of a Gibbs state can be seen as the maximum weight that appears in its Hamiltonian. 
+
+\begin{frame}[hoved]
+\frametitle{Gibbs states}
+
+A Gibbs state has the form
+\begin{equation}
+    \sigma = \frac{e^{-\beta H}}{Tr[e^{-\beta H}]},
+\end{equation}
+where $\beta$ is a parameter called inverse temperature and the Hamiltonian can be expanded as
+\begin{equation}
+    H = \sum_i \lambda_i P_i,
+\end{equation}
+with $P_i$ Pauli strings.
+
+\vspace{0.2cm}
+\begin{itemize}
+    \item The \emph{weight} of a Pauli string is the number of non-identity operators.
+    \item We define the \emph{locality} of a Gibbs state as the maximum Pauli weight appearing in $H$.
+\end{itemize}
+These are the quantum states that we will use to approximate the output of the circuits that we will work with. 
+
+\end{frame}
+
+
+% The next concept that we will introduce is the maximum entropy principle, which states that given multiple sample of an statistical distribution, out of all of those that are consistent with the measurements, we should pick the one that maximizes entropy, as that is the one that does not make extra assumptions. In the classical case we use Shannon entropy, that has this form. There is a quantum equivalent, the Von Neumann entropy. 
+\begin{frame}[hoved]
+\frametitle{Maximum entropy}
+
+The maximum entropy principle states that when given a set of samples of a probabilistic distribution, the choice of distribution that makes the least assumptions is the one that is consistent with the measurements and has maximum Shannon entropy:
+\begin{equation}
+    S(p) = - \sum_i p_i log(p_i).
+\end{equation}
+
+The quantum equivalent of this principle is, given a set of expectations of certain observables, the choice of state consistent with these measurements should be the state that maximizes the von Neumann entropy:
+\begin{equation}
+    S(\rho) = -Tr[\rho_i log(\rho_i)].
+\end{equation}
+
+The procedure of finding such quantum state is denoted \textbf{maximum entropy recovery}.
+\end{frame}
+
+
+%Given a set of observables and their expectations measured over the output, the problem of finding the corresponding state that also maximizes the Von Neumann entropy is denoted Maximum entropy recovery. The output of this method is always a Gibbs state. We choose these states not only because they are natural outputs of maximum entropy recovery, but also because these states are full rank, which makes them appropriate to approximate noisy mixed states. In addition, the relationship between their locality and Pauli strings in their Hamiltonian can be exploitable. 
+\begin{frame}[hoved]
+\frametitle{Relation with Gibbs states}
+
+Given a set of observables $M = \{O_1, \dots, O_n\}$ and their expectations, $E = \{\langle O_1 \rangle, \dots, \langle O_n \rangle\}$, the state with maximum entropy consistent with those measurements is always a Gibbs state of the form: 
+\begin{equation}
+    \sigma = \frac{e^{-\beta \sum_i \lambda_i O_i}}{ Tr[e^{-\beta \sum_i \lambda_i O_i}]}
+\end{equation}
+In addition, Gibbs states are suitable to approximate noisy, mixed states as they themselves are mixed. 
+\\~\\
+How do we obtain the input expectations $\langle O_i\rangle$ with as few measurements as possible?
+\end{frame}
+
+%The next concept is classical shadows, which is a method that allows us to estimate the expectations of a certain set of observables incurring in little error. The main driver of the number of needed samples is the maximum weight of Pauli strings used as observables. This idea will drive the rest of this presentation. 
+\begin{frame}[hoved]
+\frametitle{Classical shadows}
+Classical shadow tomography is a method based on random measurements. It takes as input a set of observables and outputs its expectations.
+\\~\\
+
+In our particular case, we will use the set of Pauli strings with a maximum weight $l$ as input. In these settings, the procedure outputs a set of estimators $\tilde{\langle O_i \rangle}$ with additive error at most $\epsilon$ and success probability at least $1 - \delta$, using at most.
+    \[
+    N = \mathcal{O}\left(
+        \log\left(\frac{M}{\delta}\right) \,
+        \frac{4^l}{\epsilon^2}
+    \right)
+    \]
+
+copies of an unknown quantum state $\rho$.\\
+
+
+\end{frame}
+
+%Now that we have a way to obtain expectations and derive a quantum state that matches those quantities, we can put these two procedures together to obtain a method that can approximate the output of a noisiless circuit. So, we have a circuit with a known locality structure. Then we can obtain an approximation of error sqrt(epsilon) using this number of samples, which is mainly driven by the support of these operators. But why?
+\begin{frame}[hoved]
+\frametitle{Putting classical shadows and and maximum entropy together}
+
+Given $U$ a $n$-qubit noiseless quantum circuit with known locality structure and $\ket{\psi} = U \ket{0}^{\otimes n}$. If the support of the operators $UZ_iU^{\dagger}$ has a maximum size $l$ for all $i=1,\dots,n$, then for some $\epsilon >0$ we have that
+\begin{equation}\
+     O(\epsilon^{-2}4^{3l}\log^4{(n4^{l}\epsilon^{-1})}\log(4^{l}n\delta^{-1}))
+\end{equation}
+samples of $\ket{\psi}$ are enough to learn a Gibbs state $\sigma(\lambda)$ such that 
+\begin{equation}
+    ||\ket{\psi}\bra{\psi} - \sigma(\lambda)||_{tr} \leq \sqrt{\epsilon}
+\end{equation}
+
+with probability at least $1-\delta$.
+\end{frame}
+
+
+%First, we model the output of a circuit with a gibbs state that is close in relative entropy. The Hamiltonian of that Gibbs state is for by the operators UZ_iUdagger, and they can be expressed as a linear combination of Pauli strings of maximum weight L. We can use classical shadows method to obtain a set of expectations and reuse that as input for maximum entropy recovery. The output is a Gibbs states that approximates the output. The main focus is reducing the parameter of max weight L.
+\begin{frame}[hoved]
+\frametitle{Outline of the proof}
+\begin{itemize}
+    \item The output of a target circuit $U$ is $U\ket{0}^{\otimes n}\bra{0}^{\otimes n}U^\dagger$, which is close in relative entropy to $\frac{e^{-\beta_\epsilon \sum_i U Z_i U^\dagger}}{Tr[e^{-\beta_\epsilon \sum_i U Z_i U^\dagger}]}$.
+
+    \item The support of operators $UZ_iU^\dagger$ can be expressed as a linear combination of Pauli strings of maximum weight $l$.
+
+    \item We can use classical shadows to estimate the quantities $\langle P_i \rangle = Tr[U\ket{0}^{\otimes n}\bra{0}^{\otimes n}U^\dagger P_i]$.
+
+    \item We use those estimators as input for the maximum entropy recovery. 
+
+    \item Obtain an approximate Gibbs state.
+\end{itemize}
+The main bottleneck is the exponential increase of samples as the Pauli weight of $UZ_iU^\dagger$ increases.
+\end{frame}
+
+
+% What about noise? We will now consider noisy circuits i.e with quantum channels intertwined with logical operations. We will use depolarizing noise, given by the following formula. We will use 1-local depolarizing noise, and its global counterpart over all the qubits.  In addition, depolarizing noise has an interesting property: it dampens pauli strings exponentially as they go bigger in weight.  
+\begin{frame}[hoved]
+\frametitle{What about noise?}
+    So far we have not taken into account noise. The noise model that we will study is $1$-qubit (local) depolarizing noise, given by:
+    \begin{equation}\notag
+        \mathcal{D}_p(\rho) = (1-p)\rho + p\frac{I}{2}
+    \end{equation}
+    We will mostly use $\mathcal{D}_p^{\otimes n} \rightarrow$ $1$-qubit depolarizing noise applied to every qubit.
+    \\~\\
+
+    An interesting fact that we will be key is that if $P$ is a Pauli string, then then the effect of the depolarizing channel has a closed form:
+    \begin{equation}
+        \mathcal{D}_p^{\otimes n}(P) = (1-p)^{w(P)}P
+    \end{equation}
+    where $w(P)$ is the weight of the Pauli string.
+\end{frame}
+
+
+

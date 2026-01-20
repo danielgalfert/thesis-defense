@@ -1,0 +1,57 @@
+
+%In this section we will simulate the noisy shallow circuits with a known locality structure and use the procedure presented in the previous section. 
+\section{Numerical simulations}
+\begin{frame}[hoved]
+\centering
+\vspace{4cm}
+{\Huge \textbf{Numerical simulations}}
+\end{frame}
+
+
+%In order to effciently simulate quantum circutis that are shallow, we make use of tensor networks. Tensor networks leverage the fact that these circuits are local and shallow, so not very entangled. Under these conditions, tensor networks are able to bring down the number of parameters from 2^n to nchi^2
+
+%In addition, we describe the parameters of the simulations: 
+% $N$: qubits of the circuit.
+% $\beta$: inverse temperature.
+% $p$: noise parameter of depolarizing noise.
+% $d$: depth of the circuit.
+% $k$: locality (maximum weight) of Pauli strings used as observables. 
+
+%In this case, we will be working with 1D circuits. 
+\begin{frame}[hoved]
+\frametitle{Using tensor networks to simulate quantum circuits}
+While a system with $n$ qubit has a dimension of $2^n$ so exponential number of params. , tensor networks allow us to store the same system with $O(n\chi^2)$, where $\chi$ is the maximum bond dimension.
+\\~\\ 
+In these simulations, we build a random circuit, measure the expectations of Pauli strings of a maximum given weight and then used those expectations to recover a Gibbs state through maximum entropy recovery. The following parameters are used:
+\begin{itemize}
+    \item $N$: qubits of the circuit.
+    \item $\beta$: inverse temperature.
+    \item $p$: noise parameter of depolarizing noise.
+    \item $d$: depth of the circuit.
+    \item $k$: locality (maximum weight) of Pauli strings used as observables. 
+\end{itemize}
+\end{frame}
+
+
+%Here is the slide for results. We can appreciate an exponential decrease of trace distance as the state is closer to the maximally mixed state. We can also observe how the pattern that the first three graphs follow breaks on the fourth. This is due to temperature, as when temperature tends to 0, the Gibbs state is closer and closer to the ground state of the system, which makes it unsuitable to approximate the circuit. 
+\begin{frame}[hoved]
+\frametitle{Results for $d$ = 6}
+\includegraphics[width=\textwidth, height=40ex]{img/graph_2.png}
+\end{frame}
+
+%What can we see? The trace distant decreases as locality increases: the observables can capture more information. However, full locality does not seem to be necessary. These numerics suggest that noise is, in a way, making information more local. 
+
+\begin{frame}[hoved]
+\frametitle{What can we see?}
+\begin{itemize}
+    \item Trace distance decreases as probability of error increases $\rightarrow$ mixed states are easier to approximate with Gibbs states.
+    \item Trace distance decreases as locality increases $\rightarrow$ bigger locality in observables capture more information across sites.
+    \item Pattern breaks with high $\beta$ $\rightarrow$ Gibbs states grow closer to the pure ground state of the system, which is not a suitable approximation.
+    \item A very small locality seems to be enough to grant very low error.
+\end{itemize}
+
+As we saw in the previous section, the weight of the Pauli string observables was the main driver in the number of samples needed to obtain a certain precision. Is there a way to reduce this number?
+\\~\\ 
+The numerical results suggest that a method based on truncation could output a good approximation.
+\end{frame}
+

@@ -1,0 +1,51 @@
+\section{Context and motivation}
+\begin{frame}[hoved]
+\centering
+\vspace{4cm}
+{\Huge \textbf{Context and motivation}}
+\end{frame}
+
+\begin{frame}[hoved]
+\frametitle{Noisy quantum circuits}
+%We are in the NISQ era, which means that the number of qubits is not very high and there is noise in every operation. Said noise is one of the main challenges when trying to verify the ouput of a quantum circuit. However, given the nature of quantum states, how can we verify those outputs? Measuring implies the collapse of the state.
+\begin{itemize}
+    \item We are in the NISQ era $\rightarrow$ Noisy Intermediate Scale Quantum.
+    \item Noise is one of the main challenges to tackle in the process of design and verification.
+    \item Due to the nature of quantum states, verifying the output of quantum devices is an arduous process as measurements destroy the original quantum state.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}[hoved]
+\frametitle{Quantum State Tomography}
+%Quantum state tomography is a procedure that is based on rebuilding quantum states by calculating statistical quantities
+%However, the number of parameters of a quantum state increases exponentially with the number of qubits.
+%This exponential scaling is the fundamental bottleneck that motivates approximate  approaches.
+\begin{itemize}
+    \item Quantum State Tomography aims to reconstruct a quantum state from measurements.
+    \item The number of measurements required scales exponentially with system size.
+    \item This makes full tomography infeasible beyond very small systems, motivating approximate methods.
+\end{itemize}
+\end{frame}
+
+
+%The particular kind of circuits that we will focus on are those that shallow, which means that the number of gates grows logarithmically with the number of qubits, local: each gate only affects k-adjacent qubits and noise: noise is present in logical operations within the circuit. Our goal is to efficiently approximate the output of these circuits using local information leveraging the presence of noise.
+\begin{frame}[hoved]
+\frametitle{Noisy shallow $k$-local circuits}
+
+Typical quantum circuits with input, output and gates with three distinct properties.
+\begin{itemize}
+    \item Noisy: there is a source of noise in the gates of the circuit.
+    \item Shallow: the circuit depth grows at most logarithmically with the system size.
+    \item Locality: each gate affects at most $k$ adjacent qubits.
+\end{itemize}
+
+\vspace{0.3cm}
+\textit{Goal: efficiently approximate the output states of such circuits using as few measurements as posible.}
+
+\end{frame}
+%
+
+%Before the main body of this presentation, we need a few mathematical concepts 
+

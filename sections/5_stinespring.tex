@@ -1,0 +1,49 @@
+% To provide further evidence for our conjecture, we explore the problem using the stinespring dilation theorem.
+
+\section{Stinespring representation}
+\begin{frame}[hoved]
+\centering
+\vspace{4cm}
+{\Huge \textbf{Stinespring representation}}
+\end{frame}
+
+
+%Stinespring dilation tells us that we can view a quantum channel as a unitary operation in a bigger system that we denote environment. This view can be expressed mathematically through this expression. We can write the depolarizing in these terms.
+\begin{frame}[hoved]
+\frametitle{Stinespring dilation}
+A quantum channel $\mathcal{E}: M^{sa}_A \rightarrow M^{sa}_B$ can be represented as:
+\begin{equation}\notag
+    \mathcal{E}(\rho_A)
+    = \mathrm{tr}_E[U_{AE}(\rho_A \otimes \ket{0}\bra{0}_E)U_{AE}^{\dagger}],
+    \label{eq:stinespring}
+\end{equation}
+where $U_{AE}$ is a unitary operator acting on the combined system of $A$ and an environment $E$,
+initialized in a pure state $\ket{0}\bra{0}_E$. The trace is taken over the environment $E$.
+\\~\\ 
+We can write the depolarizing channel in these terms.
+\end{frame}
+
+
+%A quick calculation shows that these expression is equivalent to our multiqubit depolarizing channel. In addition we can use this expression to calculate explicitly the output of a Gibbs state throguh the depolarizing channel, which tells us that no new long range correlations are appearing, further supporting the previously stated conjecture.
+\begin{frame}[hoved]
+\frametitle{Stinespring representation of the depolarizing channel}
+We can write the depolarizing channel as: 
+\begin{equation}\notag
+    \mathcal{D}_p^{\otimes n}(\rho) = tr_{EE'}\left[U_{AEE'}^{\otimes n} \big(\rho \otimes  (\ket{\Psi_{EE'}}\bra{\Psi_{EE'}})^{\otimes n}\big) (U_{AEE'}^\dagger)^{\otimes n}\right].
+\end{equation}
+with $\ket{\Psi_{EE'}}\bra{\Psi_{EE'}} = \sum_{P,P_{E'} \in \{I,X,Y,Z\}} \sqrt{p_Pp_{P_{E'}}}\ket{b_P}\bra{b_{P_{E'}}} \otimes \ket{b_P}\bra{b_{P_{E'}}}$,  $U_{AEE'} = (I \otimes \ket{00}\!\bra{00} + X \otimes \ket{01}\!\bra{01} + Y \otimes \ket{10}\!\bra{10} + Z \otimes \ket{11}\!\bra{11}) \otimes I_{E'}.$ 
+
+\end{frame}
+
+\begin{frame}[hoved]
+\frametitle{Practical use as evidence for our conjecture}
+
+Furthermore, we can use this expression to calculate a explicit expression for a Gibbs state going through multiqubit local depolarizing noise. If $H = \sum_i H_i$ with each of the $H_i$ affecting $k$ sites at most, we can arrive at the expression:
+
+\begin{equation}\notag
+     \mathcal{D}^{\otimes n}_p\left(\frac{e^{-\beta H}}{Z}\right) = \frac{1}{Z_f} \sum_{i} e^{-\beta H_i}.
+\end{equation}
+The output is a mixed state made out of local Gibbs states, which suggests that the state is only more mixed $\rightarrow$ now new long range correlations are being created.  
+
+\end{frame}
+

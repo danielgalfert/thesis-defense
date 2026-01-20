@@ -1,0 +1,153 @@
+\section{Gibbs state truncation}
+\begin{frame}[hoved]
+\centering
+\vspace{4cm}
+{\Huge \textbf{Gibbs state truncation}}
+\end{frame}
+
+
+\begin{frame}[hoved]
+\frametitle{Bounding maximum weight of Pauli strings}
+We have established a straightforward pipeline:
+\begin{itemize}
+   
+    \item Measure Pauli weights of weight at most $l$
+    \item use them as input for maximum entropy recover 
+    \item obtain a Gibbs state.
+
+\end{itemize}
+Numerical results show that full locality is not necessary. 
+\\~\\
+New strategy: measure Pauli strings only up until a certain weight $t$, set the remaining expectations to $0$ and run maximum entropy recovery.
+\\~\\
+Can we analytically express the error incurred when using this new strategy?
+\\~\\
+We need to introduce three concepts: the Heisenberg picture, Clifford group and $k$-designs.
+
+\end{frame}
+
+
+% The heisenberg picture allows to shift the focus from states to observables, thanks to the following equalities. The first one is the definition of expectation of an observable, the second one is agan the definition of inner product. The third is just a property of self adjoint operators. And the final one is inner product definition again. 
+\begin{frame}[hoved]
+\frametitle{The Heisenberg picture}
+
+Instead of tracking the state of a quantum system, we can track the change of observables:
+\begin{equation}\notag
+     \langle Q \rangle = Tr[Q C\rho C^\dagger] =  \langle Q, C\rho C^\dagger \rangle = \langle C^\dagger Q C, \rho \rangle = Tr[C^\dagger Q C\rho]
+\end{equation}
+
+Which allows us track Pauli strings across the circuit instead of states.
+\end{frame}
+
+
+
+%The next concept is the Clifford group, which is a group that normalizes the Pauli group. i.e, the following holds.%If we restrict the gates of our circuit to Clifford gates, studying the circuit is reduced to tracking Pauli strings of different weights across it. However, a concern arises. Are we not losing generality by doing this restriction? The answer is: not on average. Which leads us to the concept of $k$-design.
+\begin{frame}[hoved]
+\frametitle{Clifford group}
+The Clifford group of size $n$, denoted by $\mathcal{C}_n$, is the group that normalizes the Pauli group of size $n$ under conjugation, or more formally:
+\begin{equation}\notag
+   \text{if     } C \in \mathcal{C}_n, \forall P \text{ Pauli string,   } CPC^\dagger \text{ is also a Pauli string}.  
+\end{equation} 
+However, a concern arises. Are we not losing generality by doing this restriction? The answer is: not on average. Which leads us to the concept of $k$-design.
+\end{frame}
+
+
+
+%A k-design is a probability distribution such that the first k-statistical moments match the Haar measure, which is the unique probability distribution that is unbiased over the unitaries. We can work with a k-design to work with a subset of unitaries without losing generality. The Clifford group is a k-design. 
+
+\begin{frame}[hoved]
+\frametitle{$k$-designs}
+
+We define a $k$-design as a probability distribution over the unitary group such that the first $k$ moments match those of the Haar measure. 
+\\~\\
+Using $k$-designs allows us to work with a suitable subset of unitaries without losing generality.
+\\~\\ 
+In our case, we will use Clifford gates as they are a $3$-design. 
+\end{frame}
+
+
+\begin{frame}[hoved]
+\frametitle{Putting everything together}
+
+If $C$ a Clifford gate and $P$ a Pauli string, and $\mathcal{D}_p$ depolarizing noise, then:
+\begin{equation}\notag
+    \mathcal{D}_p^{\otimes n}\circ C (P_0) = P_1 (1-p)^{w(P)}
+\end{equation}
+
+so if $C_p$ is the operator representing a shallow noisy circuit as 
+\begin{equation}\notag
+    C_p = C_D  \circ \mathcal{D}_p^{\otimes n}\circ \dots \circ C_1  \circ \mathcal{D}_p^{\otimes n}
+\end{equation}
+and 
+\begin{equation}\notag
+\rho = C_p\ket{0}^{\otimes n}\bra{0}^{\otimes n}C_p^\dagger
+\end{equation}
+then 
+\begin{equation}\notag
+    Tr[\rho P] \leq (1-p)^W
+\end{equation}
+
+
+\end{frame}
+
+
+
+%We can put all of these tools together to come up with a revised method that leverages the effects that we saw in the previous section. If local observables are enough to approximate the output of the circuit. We may not use them in the set of observables to measure as when applying classical shadows, effectively reducing the order of needed samples exponentially. Therefore, if we model a noisy circuit in the following way, set the expectation of pauli strings with higher weight than t to 0 and perform the classical shadows + maximum entropy recovery, we obtain a new bound. It is also important to note that Strong convexity of the partition function is not assumed arbitrarily, it ensures stability of the Gibbs map under perturbations of the input expectations.
+
+
+\begin{frame}[hoved]
+\frametitle{Truncation based method}
+
+Previous method used all Pauli strings. 
+\\~\\
+Now we use Pauli string of weight at most $t$ as input for classical shadows and then maximum entropy recovery.
+\\~\\ 
+If we make extra assumption that $\log Z_\beta(\lambda) = \log tr[e^{-\beta \sum_i \lambda_i P_i}]$ is $\alpha$-strongly convex, then:
+\begin{equation}\notag
+    ||\rho - \sigma(\lambda)||_{tr} \leq \sqrt{\epsilon} + 2\sqrt{\ln 2\frac{\beta}{\alpha}} |\mathcal{P}_{>t}|^{\frac{3}{4}} (1-p)^{W}. 
+\end{equation}
+where $W$ is a constant depending on the circuit structure and depth, $\epsilon$ is the error previously obtained with all the Pauli operators and $\mathcal{P}_{>t}$ is the set of Pauli strings of weight greater than $t$.
+\end{frame}
+
+
+%just read this one, it is self explanatory
+
+\begin{frame}[hoved]
+\frametitle{Caveat}
+
+The new error obtained has two main scaling factors: $|\mathcal{P}_{>t}|^{\frac{3}{4}}$ and $(1-p)^W$. Both scale exponentially in opposite directions. 
+\\~\\
+Without anymore information about the distribution of weights of Pauli strings in the state across the circuit, we cannot really be sure that truncation represents an improvement.
+\\~\\ 
+However, our numerical results suggest that local observables are indeed enough to rebuild the output of the circuit. So there is reason to suggest that the number $|\mathcal{P}_{>t}|^\frac{3}{4}$ is actually not growing at the same speed as $(1-p)^W$. 
+\end{frame}
+
+
+\begin{frame}[hoved]
+\frametitle{Contradiction}
+
+$|\mathcal{P}_{>t}|^{\frac{3}{4}}$ can grow because the state increases in locality. How? 
+\\~\\
+Either because of gates spreading information $\rightarrow$ unlikely because we are dealing with shallow and local circuits
+\\~\\
+or because noise is somehow increasing the locality of the state.
+\\~\\
+But given our results, this is \textbf{not} happening. Which strongly suggests that noise does not generate significant high weight components.
+\\~\\
+This leads to the following conjecture.
+
+\end{frame}
+
+
+%Given that we are in the context of shallow circuits, of limited locality, the only element that can make long correlations appear is noise, therefore, the only gap that we have between our theoretic approach and the numerical results is whether noise conserves locality or not. Therefore, our conjecture takes care of that: 
+\begin{frame}[hoved]
+\frametitle{Conjecture}
+
+Given $\rho\in D_{2^n}$ such that $\rho = \left(\frac{e^{-\beta_\epsilon H}}{tr[e^{-\beta_\epsilon H}]}\right)$, where $H$ is a $k$-local Hamiltonian, $\beta_\epsilon = |\ln \epsilon|$ and $\mathcal{D}_p$ is depolarizing channel with parameter $p$. Then, for any $\epsilon > 0$, there exists a $k'$-local Hamiltonian $H'$, with $k' = \mathcal{O}(k)$ such that:
+    \begin{equation}\notag
+        ||\mathcal{D}_p^{\otimes n}(\rho) - \frac{e^{-\beta_\epsilon H'}}{tr[e^{-\beta_\epsilon H'}]}||_{tr} \leq \epsilon.
+    \end{equation}
+
+Which in practice means that even if the state itself changes, locality is approximately conserved when passing through the layers of the circuit. 
+\end{frame}
+
